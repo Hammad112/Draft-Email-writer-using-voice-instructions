@@ -11,7 +11,7 @@ file_writer_tool_sentiment = FileWriterTool(filename='sentiment.txt',directory="
 
 llm = LLM(
     model="groq/llama-3.1-70b-versatile",
-    api_key="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",
+    api_key="",
     provider="groq"
 )
 
