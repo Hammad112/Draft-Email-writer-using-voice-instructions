@@ -64,15 +64,18 @@ class MeetingMinutesFlow(Flow[MeetingMinutesState]):
         print("Generating meeting minutes")
         crew = MeetingMinutesCrew()
         inputs = {"transcript": self.state.transcript}
-        meeting_minutes= crew.crew().kickoff(inputs)
-        self.state.meeting_minutes = meeting_minutes
+        meeting_minutes_output = crew.crew().kickoff(inputs)
+        # Extract the string content from the CrewOutput
+        self.state.meeting_minutes = str(meeting_minutes_output)
     
     @listen(generate_meeting_minutes)
     def generate_email_draft(self):
         print("Generating email draft")
         crew = GmailCrew()
         inputs = {"body": self.state.meeting_minutes}
-        email_draft= crew.crew().kickoff(inputs)
+        email_draft_output = crew.crew().kickoff(inputs)
+        # Extract the string content from the CrewOutput
+        email_draft = str(email_draft_output)
         print(email_draft)
 
 
@@ -80,11 +83,13 @@ class MeetingMinutesFlow(Flow[MeetingMinutesState]):
 
 
 def kickoff():
-    session=agentops.init(os.getenv("AGENTOPS_API_KEY"))
+    session = agentops.init(os.getenv("AGENTOPS_API_KEY"))
     meeting_minutes_flow = MeetingMinutesFlow()
     meeting_minutes_flow.plot()
     meeting_minutes_flow.kickoff()
-    session.end_session()
+    # Only call end_session if session is not None
+    if session is not None:
+        session.end_session()
 
 
 
