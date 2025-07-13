@@ -215,7 +215,7 @@ tiktoken==0.7.0
 tokenizers==0.20.3
 tomli==2.0.2
 tomli_w==1.1.0
-torch==2.2.2
+torch==2.7.1
 tqdm==4.67.0
 traitlets==5.14.3
 trio==0.27.0
